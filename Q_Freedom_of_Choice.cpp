@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 const int mod1 = 764285933, mod2 = 147043433;
-const int base1 = 2, base2 = 3;
+const int base1 = 31, base2 = 37;
 class Hash
 {
 public:
@@ -11,7 +11,6 @@ public:
     Hash(string _s)
     {
         s = _s;
-        s = '#' + s;
         n = s.size();
         pw1.resize(n + 1);
         pw2.resize(n + 1);
@@ -76,6 +75,7 @@ void solve()
     cin >> n;
     string s1, s2;
     cin >> s1 >> s2;
+    s1 = '#' + s1, s2 = '#' + s2;
     Hash h1(s1), h2(s2);
     h1.build();
     h2.build();
@@ -87,15 +87,17 @@ void solve()
         set<array<int, 2>> st;
         for (int i = 1; i <= n - mid + 1; i++)
         {
-            // cerr << i << " " << i + mid - 1 << endl;
+            //
             st.insert(h1.range_hash(i, i + mid - 1));
         }
         bool ok = false;
         for (int i = 1; i <= n - mid + 1; i++)
         {
+
             if (st.count(h2.range_hash(i, i + mid - 1)))
             {
-                res=s1.substr(i,mid);
+
+                res = s2.substr(i, mid);
                 ok = true;
                 break;
             }
@@ -105,7 +107,7 @@ void solve()
         else
             r = mid;
     }
-    cout << res<<endl;
+    cout << res << endl;
 }
 int main()
 {
