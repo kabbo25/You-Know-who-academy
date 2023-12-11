@@ -117,44 +117,24 @@ void solve()
     cin >> s;
     s = '#' + s;
     int n = s.size();
+    int N = n - 1;
     Hash hs1(s);
     hs1.build();
-    auto chk = [&](int Window)
+    for (int i(1); i <= N; ++i)
     {
-        // dbg(Window);
-        array<int, 2> first_hash{-1, -1};
-        bool flag(true), geche(false);
-        for (int i(1); i + Window < n; i += Window)
+        bool flag(true);
+        for (int j(i + 1); j <= N; j += i)
         {
-            if (first_hash[0] == -1)
-            {
-                first_hash = hs1.range_hash(i, i + Window - 1);
-            }
-            else
-            {
-                geche = true;
-                flag &= (first_hash == hs1.range_hash(i, i + Window - 1));
-            }
+            auto right = min(N, j + i - 1);
+            auto window = (right == N ? N - j + 1 : i);
+            // dbg(window, i, j, j + window - 1);
+            flag &= (hs1.range_hash(1, window) == hs1.range_hash(j, j + window - 1));
+            // dbg(hs1.range_hash(1, window)[0], hs1.range_hash(j, j + window -
+            // 1)[0]);
         }
-        // dbg(flag,geche);
-        return flag && geche;
-    };
-    int l(0), r(n - 1);
-    while (r - l > 1)
-    {
-        int mid = (l + r) / 2;
-        if (chk(mid))
-            r = mid;
-        else
-            l = mid;
+        if (flag)
+            cout << i << " ";
     }
-    vector ans(0, 0);
-    for (int i(r); i < n; i += r)
-        ans.emplace_back(i);
-    if (ans.size() and ans.back() != n - 1)
-        ans.emplace_back(n - 1);
-    for (auto &x : ans)
-        cout << x << " ";
 }
 int main()
 {
