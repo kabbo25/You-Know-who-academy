@@ -125,7 +125,7 @@ void solve()
     auto chk = [&](int window)
     {
         set<array<int, 2>> st;
-        for (int i(1); i + window <= n; ++i)
+        for (int i(1); i + window <= n + 1; ++i)
         {
             auto current = hs1.range_hash(i, i + window - 1);
             if (st.insert(current).second == false)
